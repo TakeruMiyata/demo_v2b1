@@ -6,22 +6,21 @@ import streamlit as st
 from PIL import Image
 from skimage.metrics import peak_signal_noise_ratio as psnr
 
-
 # ----------------------
 # データダウンロード & 解凍
 # ----------------------
-DATA_DIR = "data"
+DATA_DIR = "data/data"  # ← 1階層深くする！
 
 if not os.path.exists(DATA_DIR):
     with st.spinner("Downloading dataset..."):
         zip_path = hf_hub_download(
-            repo_id="TakeruMiyata/Contrel_Fusion",  # あなたのDataset名に変更
-            filename="data.zip",                   # zipファイル名
-            token=st.secrets["hf_token"],          # secrets.toml に登録したトークン
+            repo_id="TakeruMiyata/Contrel_Fusion",
+            filename="data.zip",
+            token=st.secrets["hf_token"],
             repo_type="dataset"
         )
         with zipfile.ZipFile(zip_path, "r") as zip_ref:
-            zip_ref.extractall(".")  # ← ここを変える
+            zip_ref.extractall(".")  # ← data/ が含まれているのでそのままでOK
         st.success("Data extracted.")
 
 # ----------------------
