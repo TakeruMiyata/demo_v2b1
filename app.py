@@ -21,7 +21,7 @@ if not os.path.exists(DATA_DIR):
             repo_type="dataset"
         )
         with zipfile.ZipFile(zip_path, "r") as zip_ref:
-            zip_ref.extractall(DATA_DIR)
+            zip_ref.extractall(".")  # ← ここを変える
         st.success("Data extracted.")
 
 # ----------------------
