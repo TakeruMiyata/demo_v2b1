@@ -35,7 +35,7 @@ image_name = st.selectbox("Select Image", image_list)
 
 # 画像パス構築
 input_path = os.path.join(DATA_DIR, "input", image_name)
-output_path = os.path.join(DATA_DIR, "pred", image_name)
+output_path = os.path.join(DATA_DIR, "output", image_name)
 gt_path = os.path.join(DATA_DIR, "gt", image_name)
 
 # 画像読み込み
