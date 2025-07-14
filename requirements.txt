@@ -1,5 +1,5 @@
 streamlit
+huggingface_hub
 Pillow
-torch
-torchvision
 scikit-image
+numpy
