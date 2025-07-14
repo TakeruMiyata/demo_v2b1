@@ -54,6 +54,9 @@ if image_file:
     col1, col2, col3 = st.columns(3)
     with col1:
         st.image(input_img, caption="Input", use_container_width=True)
+        score = compute_psnr(os.path.join(DATA_DIR, "input", image_file),
+                             os.path.join(DATA_DIR, "gt", image_file))
+        st.markdown(f"**PSNR: {score:.2f}**")
     with col2:
         st.image(pred_img, caption="Output", use_container_width=True)
         score = compute_psnr(os.path.join(DATA_DIR, "output", image_file),
