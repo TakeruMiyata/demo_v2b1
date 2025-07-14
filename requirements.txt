@@ -1,5 +1,5 @@
-gradio
+streamlit
+Pillow
 torch
 torchvision
-pillow
 scikit-image

@@ -1,39 +1,44 @@
-import gradio as gr
+import streamlit as st
 from PIL import Image
-from torchvision.transforms import ToTensor
-from skimage.metrics import peak_signal_noise_ratio
 import os
+import numpy as np
+from torchvision.transforms import ToTensor
+from skimage.metrics import peak_signal_noise_ratio as psnr
+
+st.set_page_config(layout="wide")
 
 def compute_psnr(pred_path, gt_path):
     pred = ToTensor()(Image.open(pred_path).convert("L")).numpy()
     gt = ToTensor()(Image.open(gt_path).convert("L")).numpy()
-    return peak_signal_noise_ratio(gt, pred, data_range=1.0)
+    return psnr(gt, pred)
 
-def compare_image(file_name):
-    pred_path = f"data/output/{file_name}"
-    gt_path = f"data/gt/{file_name}"
-    input_path = f"data/input/{file_name}"
-    
-    psnr = compute_psnr(pred_path, gt_path)
-    
-    return (
-        Image.open(input_path),
-        Image.open(pred_path),
-        Image.open(gt_path),
-        f"PSNR: {psnr:.2f} dB"
-    )
+# UI
+st.title("Image Comparison (v2b1)")
 
-demo = gr.Interface(
-    fn=compare_image,
-    inputs=gr.Dropdown(choices=os.listdir("data/input"), label="Select Image"),
-    outputs=[
-        gr.Image(label="Input"),
-        gr.Image(label="Output"),
-        gr.Image(label="Ground Truth"),
-        gr.Textbox(label="PSNR")
-    ],
-    title="Image Comparison & PSNR Viewer"
-)
+image_list = os.listdir("data/input")
+image_file = st.selectbox("Select Image", image_list)
 
-if __name__ == "__main__":
-    demo.launch()
+if image_file:
+    input_path = os.path.join("data/input", image_file)
+    pred_path = os.path.join("data/output", image_file)
+    gt_path = os.path.join("data/gt", image_file)
+
+    input_img = Image.open(input_path)
+    pred_img = Image.open(pred_path)
+    gt_img = Image.open(gt_path)
+
+    input_psnr = compute_psnr(input_path, gt_path)
+    output_psnr = compute_psnr(pred_path, gt_path)
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.image(input_img, caption="Input", use_container_width=True)
+        st.markdown(f"**Input PSNR:** {input_psnr:.2f}")
+
+    with col2:
+        st.image(pred_img, caption="Output", use_container_width=True)
+        st.markdown(f"**Output PSNR:** {output_psnr:.2f}")
+
+    with col3:
+        st.image(gt_img, caption="Ground Truth", use_container_width=True)
