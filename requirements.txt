@@ -3,3 +3,4 @@ huggingface_hub
 Pillow
 scikit-image
 numpy
+torchvision
