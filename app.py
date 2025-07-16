@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 # ----------------------------
 # データのダウンロード＆解凍
 # ----------------------------
-DATA_DIR = "data/data"
+DATA_DIR = "data"
 
 if not os.path.exists(DATA_DIR):
     with st.spinner("Downloading dataset..."):
