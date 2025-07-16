@@ -38,7 +38,7 @@ def compute_psnr(pred_path, gt_path):
 # ----------------------------
 # Streamlit UI
 # ----------------------------
-st.title("Image Comparison (v2b1)")
+st.title("Image Comparison - Proj_Dl_IpDeblur_UNetEnhanPxl_Attent_Cbam_Src_Iccv2021_20250718_V2B1")
 
 # ファイル一覧を取得
 image_list = sorted(os.listdir(os.path.join(DATA_DIR, "input")))
